@@ -7,8 +7,6 @@ import { AuthContext } from "../navigation/AuthProvider";
 import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
-import { useFavouriteList } from "../Contexts/FavouriteListContext";
-
 const CoinDetailsHeader = (props) => {
   const { image, name, coinId, marketCapRank } = props;
   const { user } = useContext(AuthContext);
@@ -51,6 +49,10 @@ const CoinDetailsHeader = (props) => {
     return storeFavouriteCoinId(coinId);
   };
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  
   const handleNotification = async () => {
     await storeOrderInDatabase(coinId, notificationValue, isIncrease);
     toggleModal();

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import CoinItemFavourite from '../components/CoinItemFavourite';
 import { useFavouriteList } from '../Contexts/FavouriteListContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { getDetailedCoinDataAPI } from "../api";
+import { getDetailedCoinDataAPI } from "../services/api";
 import { useFocusEffect } from '@react-navigation/native';
 
 const FavouritesScreen = () => {
@@ -15,11 +15,13 @@ const FavouritesScreen = () => {
 
   const fetchFavouriteCoins = async () => {
     setLoading(true);
-    setIsArrayEmpty(false); // Yeni veri geldiğinde boş olmadığını varsayalım
+    setIsArrayEmpty(false);
 
     const coinDataArray = [];
+    
     if (favouriteCoinIds.length === 0) {
       setIsArrayEmpty(true);
+      setLoading(false);
     } else {
       try {
         for (let i = 0; i < favouriteCoinIds.length; i++) {
@@ -38,7 +40,6 @@ const FavouritesScreen = () => {
 
         setCoins(coinDataArray);
       } catch (error) {
-        console.error('Error fetching coin data:', error);
         setIsArrayEmpty(true);
       } finally {
         setLoading(false);
@@ -70,17 +71,20 @@ const FavouritesScreen = () => {
     <View style={{ flex: 1 }}>
       <View style={{ alignItems: 'center' }}>
         <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-          <MaterialCommunityIcons name="playlist-star" size={28} color="#faf602" />
+          <MaterialCommunityIcons name="playlist-star" size={25} color="#faf602" />
           <Text style={{ fontFamily: 'Roboto-Regular', color: '#faf602', fontSize: 25, letterSpacing: 1, paddingHorizontal: 20, paddingBottom: 10 }}>Favori Coinler</Text>
         </View>
       </View>
       {loading ? (
-        <ActivityIndicator size="large" color="#faf602" style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }} />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <ActivityIndicator size="large" color="#faf602" />
+          <Text style={{ color: '#faf602', fontSize: 18, marginTop: 10 }}>Yükleniyor...</Text>
+        </View>
       ) : (
         <>
           {isArrayEmpty ? (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Text style={{ color: '#3d4542', fontSize: 18, fontWeight: 'bold' }}>Favori Coin Listeniz Boş</Text>
+              <Text style={{ color: '#fafaaa', fontSize: 18, fontWeight: 'bold' }}>Favori Coin Listeniz Boş</Text>
             </View>
           ) : (
             <FlatList

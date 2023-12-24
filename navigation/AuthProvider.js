@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, on
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { Alert } from 'react-native';
-import { getDetailedCoinData } from "../api";
+import { getDetailedCoinDataAPI } from "../services/api";
 import * as Notifications from "expo-notifications";
 
 export const AuthContext = createContext();
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
           setUserInfo(userInfo)
     
           for (var i = 0; i < userInfo.order.length; i++) {
-            const response = await getDetailedCoinData(userInfo.order[i].id);
+            const response = await getDetailedCoinDataAPI(userInfo.order[i].id);
             const result = await response.json();
             const coinId = userInfo.order[i].id;
             const price = result.data.market_data.price[0].price_latest;
