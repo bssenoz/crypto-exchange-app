@@ -1,20 +1,8 @@
 import React, { useContext, useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Platform,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
-import FormButton from "../components/FormButton";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import FormInput from "../components/FormInput";
-import SocialButton from "../components/SocialButton";
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../navigation/AuthProvider";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5,FontAwesomeIcon } from "@expo/vector-icons";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
@@ -24,21 +12,21 @@ const LoginScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ paddingBottom: 15 }}>
-        <FontAwesome5 name="user" size={100} color="#18c68b" />
+      <View style={{ marginBottom: 55 }}>
+        <FontAwesome5 name="user" size={140} color="#faf602" solid />
       </View>
 
       <FormInput
         iconName="email"
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
-        placeholderText="Enter e-mail..."
+        placeholderText="E-mail giriniz..."
       />
       <FormInput
         iconName="vpn-key"
         labelValue={password}
         onChangeText={(userPassword) => setPassword(userPassword)}
-        placeholderText="Enter password..."
+        placeholderText="Şifre giriniz..."
         secureTextEntry={true}
       />
       <TouchableOpacity
@@ -54,7 +42,7 @@ const LoginScreen = ({ navigation }) => {
               paddingEnd: 15,
             }}
           >
-            Sign in
+            Giriş Yap
           </Text>
           <FontAwesome name="sign-in" size={30} color="#14181b" />
         </View>
@@ -63,8 +51,8 @@ const LoginScreen = ({ navigation }) => {
         style={styles.signupButton}
         onPress={() => navigation.navigate("Signup")}
       >
-        <Text style={{ color: "#18c68b", fontWeight: "bold" }}>
-          Don't have an account? Sign up now!
+        <Text style={{ color: "#fafaaa", fontWeight: "bold", marginTop: 8  }}>
+          Hesabın yok mu? Şimdi hesap oluştur!
         </Text>
       </TouchableOpacity>
     </View>
@@ -79,20 +67,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    paddingTop: 50,
+    paddingTop: 80,
     paddingHorizontal: 10,
+    backgroundColor: '#14181b'
   },
   signupButton: {
     padding: 10,
     fontSize: 20,
   },
   signinButtonContainer: {
-    backgroundColor: "#18c68b",
+    backgroundColor: "#faf602",
     height: 60,
     width: "100%",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 170,
   },
 });

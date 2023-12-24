@@ -1,60 +1,74 @@
-import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert, TextInput } from "react-native";
 import React, { useContext, useState } from "react";
-import FormButton from "../components/FormButton";
 import FormInput from "../components/FormInput";
-import SocialButton from "../components/SocialButton";
-import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../navigation/AuthProvider";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [phone, setPhone] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+  const [phone, setPhone] = useState();
 
   const { register } = useContext(AuthContext);
 
-  const handleSignUp = () => {      
+  const handleSignUp = () => {
     if (password === confirmPassword) {
       register(email, password, phone);
-      
     } else {
-      Alert.alert("Error", "Password and repeat password do not match!");
+      Alert.alert("Error", "Şifreler aynı değil. Lütfen kontrol ediniz!");
     }
+  };
+  const [isValidPhone, setIsValidPhone] = useState(true);
+
+  const handlePhoneChange = (userPhone) => {
+    // Bu fonksiyonu telefon numarası formatı kontrolü yapmak için kullanabilirsiniz
+    // Bu örnek sadece basit bir kontrol sağlamaktadır, gerçek uygulama senaryonuza göre uyarlamalısınız.
+    const phoneRegex = /^\d{10}$/; // Örneğin, 10 haneli bir telefon numarasını kabul ediyoruz.
+
+    if (phoneRegex.test(userPhone)) {
+      setIsValidPhone(true);
+    } else {
+      setIsValidPhone(false);
+    }
+
+    onChangeText(userPhone);
   };
 
   return (
+
     <View style={styles.container}>
-      <View style={{ paddingBottom: 20 }}>
-        <FontAwesome5 name="user-plus" size={100} color="#18c68b" />
+
+
+
+
+      <View style={{ marginBottom: 40 }}>
+        <FontAwesome5 name="user-plus" size={140} color="#faf602" />
       </View>
       <FormInput
         iconName="email"
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
-        placeholderText="Enter e-mail..."
+        placeholderText="E-mail giriniz..."
       />
-           
-       <FormInput
+      <FormInput
         iconName="phone"
         labelValue={phone}
         onChangeText={(userPhone) => setPhone(userPhone)}
-        placeholderText="Enter phone..."
+        placeholderText="Telefon numarası giriniz..."
       />
       <FormInput
         iconName="vpn-key"
         labelValue={password}
         onChangeText={(userPassword) => setPassword(userPassword)}
-        placeholderText="Enter password..."
+        placeholderText="Şifre giriniz..."
         secureTextEntry={true}
       />
       <FormInput
         iconName="vpn-key"
         labelValue={confirmPassword}
         onChangeText={(userPassword) => setConfirmPassword(userPassword)}
-        placeholderText="Repeat password..."
+        placeholderText="Şifreyi tekrar giriniz..."
         secureTextEntry={true}
       />
 
@@ -71,7 +85,7 @@ const SignupScreen = ({ navigation }) => {
               paddingEnd: 15,
             }}
           >
-            Register
+            Kayıt Ol
           </Text>
           <FontAwesome name="sign-in" size={30} color="#14181b" />
         </View>
@@ -81,11 +95,12 @@ const SignupScreen = ({ navigation }) => {
         style={styles.signupButton}
         onPress={() => navigation.navigate("Login")}
       >
-        <Text style={{ color: "#18c68b", fontWeight: "bold" }}>
-          Already have an account? Sign in now!
+        <Text style={{ color: "#fafaaa", fontWeight: "bold", marginTop: 8 }}>
+          Hesabın var mı? Şimdi giriş yap!
         </Text>
       </TouchableOpacity>
     </View>
+
   );
 };
 
@@ -97,8 +112,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    paddingTop: 50,
+    paddingTop: 20,
     paddingHorizontal: 10,
+    backgroundColor: '#14181b'
   },
   signupButton: {
     padding: 10,
@@ -110,12 +126,12 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   registerButtonContainer: {
-    backgroundColor: "#18c68b",
+    backgroundColor: "#faf602",
     height: 60,
     width: "100%",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 90,
   },
 });

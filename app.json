@@ -1,28 +1,28 @@
 {
   "expo": {
-    "name": "CryptoTrackerFirebase",
-    "slug": "CryptoTrackerFirebase",
+    "name": "Kripto Borsam",
+    "slug": "Kripto Borsam",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/AppIcon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/AppIcon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#14181b"
     },
     "plugins": [
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends.",
-          "cameraPermission": "The app opens your camera."
+          "photosPermission": "Uygulama, arkadaşlarınızla paylaşmanıza olanak sağlamak için fotoğraflarınıza erişir.",
+          "cameraPermission": "Uygulama kameranızı açar."
         }
       ],
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon.png",
+          "icon": "./assets/AppIcon.png",
           "color": "#ffffff"
         }
       ]
@@ -36,8 +36,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/AppIcon.png",
+        "backgroundColor": "#14181b"
       },
       "permissions": ["android.permission.RECORD_AUDIO"],
       "package": "com.walla121.CryptoTrackerFirebase"
