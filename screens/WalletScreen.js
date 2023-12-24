@@ -57,7 +57,6 @@ const WalletScreen = () => {
         for (var i = 0; i < userData.coin.length; i++) {
           const fetchedCoinsData = await getDetailedCoinDataAPI(userData.coin[i].id);
           const result = await fetchedCoinsData.json();
-
           const updatedCoin = {
             ...userData.coin[i],
             current_price: (result.data.market_data.price[0].price_latest * userData.coin[i].piece).toFixed(3),
@@ -97,7 +96,7 @@ const WalletScreen = () => {
 
     const fetchDataInterval = setInterval(() => {
       getDetailedCoin();
-    }, 20000);
+    }, 30000);
 
     return () => {
       clearInterval(fetchDataInterval);

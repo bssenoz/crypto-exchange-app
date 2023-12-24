@@ -51,19 +51,19 @@ function OnboardingScreen({ navigation }) {
             pages={[
                 {
                     backgroundColor: '#14181b',
-                    image: <Image source={require('../assets/GirisSayfası.png')} style={{ width: 250, height: 250 }} />,
+                    image: <Image source={require('../assets/GirisSayfası.png')} style={{ width: 275, height: 275 }} />,
                     title: 'Hoş Geldiniz',
                     subtitle: 'Tüm kripto para birimlerinin fiyatlarını gerçek zamanlı, geçmiş zamanlı olarak takip edin',
                 },
                 {
                     backgroundColor: '#14181b',
-                    image: <Image source={require('../assets/ProfilOlustur.png')} style={{ width: 250, height: 250 }} />,
+                    image: <Image source={require('../assets/ProfilOlustur.png')} style={{ width: 275, height: 275 }} />,
                     title: 'Profil Oluştur',
-                    subtitle: 'Yeni profil oluşturun veya mevcut profille giriş yapın',
+                    subtitle: 'Yeni hesap oluşturun veya mevcut hesap ile giriş yapın',
                 },
                 {
                     backgroundColor: '#14181b',
-                    image: <Image source={require('../assets/FavoriCoin.png')} style={{ width: 250, height: 250, }} />,
+                    image: <Image source={require('../assets/FavoriCoin.png')} style={{ width: 275, height: 275, }} />,
                     title: 'Favori Coinler',
                     subtitle: 'Favori coinlerinizi favori listenize ekleyin',
                 }
