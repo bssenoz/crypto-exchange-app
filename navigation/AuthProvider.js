@@ -37,13 +37,11 @@ export const AuthProvider = ({ children }) => {
             coin: [],
             money: adminMoney,
             isAdmin: true,
-            favourites: [],
-            order: []
+            favourites: []
           });
          }
       }
     } catch (error) {
-      console.error('Add admin error:', error);
       Alert.alert('Error', `${error.message}`);
     }
   };
@@ -127,7 +125,7 @@ export const AuthProvider = ({ children }) => {
         }
     
       } catch (error) {
-        Alert.alert("Error fetching coin price:", error);
+        Alert.alert("Error fetching coin price:", error.message);
       }
     };
 
@@ -148,7 +146,7 @@ export const AuthProvider = ({ children }) => {
             await signInWithEmailAndPassword(auth, email, password);
           } catch (e) {
             console.log(e);
-            Alert.alert('Error', `${e}`);
+            Alert.alert('Error', `${e.message}`);
           }
         },
         register: async (email, password, phone) => {
@@ -161,15 +159,14 @@ export const AuthProvider = ({ children }) => {
                 money: 0,
                 coin: [],
                 isAdmin: false,
-                phone: phone,
-                order: []
+                phone: phone
               });
 
             } else {
               Alert.alert("User not created.");
             }
           } catch (e) {
-            Alert.alert('Error', `${e}`);
+            Alert.alert('Error', `${e.message}`);
           }
         },
         
