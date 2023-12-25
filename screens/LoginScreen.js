@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import FormInput from "../components/FormInput";
 import { AuthContext } from "../navigation/AuthProvider";
-import { FontAwesome, FontAwesome5,FontAwesomeIcon } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
@@ -51,7 +51,7 @@ const LoginScreen = ({ navigation }) => {
         style={styles.signupButton}
         onPress={() => navigation.navigate("Signup")}
       >
-        <Text style={{ color: "#fafaaa", fontWeight: "bold", marginTop: 8  }}>
+        <Text style={{ color: "#fafaaa", fontWeight: "bold", marginTop: 8 }}>
           Hesabın yok mu? Şimdi hesap oluştur!
         </Text>
       </TouchableOpacity>

@@ -19,29 +19,9 @@ const SignupScreen = ({ navigation }) => {
       Alert.alert("Error", "Şifreler aynı değil. Lütfen kontrol ediniz!");
     }
   };
-  const [isValidPhone, setIsValidPhone] = useState(true);
-
-  const handlePhoneChange = (userPhone) => {
-    // Bu fonksiyonu telefon numarası formatı kontrolü yapmak için kullanabilirsiniz
-    // Bu örnek sadece basit bir kontrol sağlamaktadır, gerçek uygulama senaryonuza göre uyarlamalısınız.
-    const phoneRegex = /^\d{10}$/; // Örneğin, 10 haneli bir telefon numarasını kabul ediyoruz.
-
-    if (phoneRegex.test(userPhone)) {
-      setIsValidPhone(true);
-    } else {
-      setIsValidPhone(false);
-    }
-
-    onChangeText(userPhone);
-  };
 
   return (
-
     <View style={styles.container}>
-
-
-
-
       <View style={{ marginBottom: 40 }}>
         <FontAwesome5 name="user-plus" size={140} color="#faf602" />
       </View>

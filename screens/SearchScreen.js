@@ -2,60 +2,59 @@ import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
-    StyleSheet,
-    TextInput
+    StyleSheet
 } from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { useNavigation } from '@react-navigation/native';
 import { Foundation } from '@expo/vector-icons';
-import { fetchData  } from "../api";
+import { fetchData } from '../services/api';
 
 const SearchScreen = () => {
-    
+
     const [allCoins, setAllCoins] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const navigation = useNavigation();
 
     const fetchAllCoins = async () => {
-        if(loading){
+        if (loading) {
             return;
         }
         setLoading(true);
         const fetchedCoinsData = await fetchData();
         const result = await fetchedCoinsData.json();
         setAllCoins(result.data.items);
-        
+
         setLoading(false);
     }
 
-    useEffect( () => {
+    useEffect(() => {
         fetchAllCoins();
     }, [])
     return (
-        <View style={{alignItems: 'center'}}>
-            <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
+        <View style={{ alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                 <Foundation name="page-search" size={25} color="#faf602" />
-                <Text style={{ fontFamily: 'Roboto-Regular', color: '#faf602', fontSize: 30, letterSpacing: 1, paddingHorizontal: 10, paddingBottom: 10}}>Coin Ara</Text>
+                <Text style={{ fontFamily: 'Roboto-Regular', color: '#faf602', fontSize: 30, letterSpacing: 1, paddingHorizontal: 10, paddingBottom: 10 }}>Coin Ara</Text>
             </View>
             <SearchableDropdown
                 items={allCoins}
-                onItemSelect={(item) => navigation.navigate("CoinDetailsScreen", {coinId: item.id})}
+                onItemSelect={(item) => navigation.navigate("CoinDetailsScreen", { coinId: item.id })}
                 containerStyle={styles.dropdownContainer}
                 itemStyle={styles.item}
-                itemTextStyle={{color: '#caffea'}}
+                itemTextStyle={{ color: '#caffea' }}
                 resetValue={false}
                 placeholder={"Coin Ara..."}
-                placeholderTextColor="#364540"
+                placeholderTextColor="#caffea"
                 textInputProps={{
                     underlineColorAndroid: "transparent",
                     style: {
                         padding: 12,
                         borderWidth: 1.5,
-                        borderColor: "#364540",
+                        borderColor: "#faf602",
                         borderRadius: 10,
                         backgroundColor: '#14181b',
-                        color: '#18c68b'
+                        color: '#caffea'
                     }
                 }}
             />

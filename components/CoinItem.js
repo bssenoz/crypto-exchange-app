@@ -5,36 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 
 const CoinItem = ({marketCoin}) => {
 
-
     const coinId = marketCoin.id;
     const coinName = marketCoin.name;
-    // const slug = marketCoin.slug;
     const coinSymbol = marketCoin.symbol.toUpperCase();
     const price = marketCoin.price;
     const imageUri = marketCoin.logo;
-    // const marketCapRank = marketCoin.cmc_rank;
     const priceChange24h = marketCoin.price_change_percentage_24h;
-    // const marcetCap = marketCoin.quote.USD.market_cap;
-    
     const navigation = useNavigation();
 
-    // const normalizeMarketCap = (marketCap) => {
-    //     if (marketCap > 1e12) {
-    //       return `${(marketCap / 1e12).toFixed(3)} T`;
-    //     }
-    //     if (marketCap > 1e9) {
-    //       return `${(marketCap / 1e9).toFixed(3)} B`;
-    //     }
-    //     if (marketCap > 1e6) {
-    //       return `${(marketCap / 1e6).toFixed(3)} M`;
-    //     }
-    //     if (marketCap > 1e3) {
-    //       return `${(marketCap / 1e3).toFixed(3)} K`;
-    //     }
-    //     return marketCap;
-    //   };
+   
 
-    const percentageColor = priceChange24h < 0 ? "#C70C4E" : "#0CC76E" || 'white';
+    const percentageColor = priceChange24h < 0 ? "#ff0000" : "#0fd900" || 'white';
   return (
     <Pressable style={styles.containerItem} onPress={() => navigation.navigate("CoinDetailsScreen", {coinId: coinId})}>
       
@@ -52,7 +33,7 @@ const CoinItem = ({marketCoin}) => {
         </View>
 
         <View style={{ marginLeft: "auto", alignItems: "flex-end" }}>
-          <Text style={styles.coinNameText}>${price.toFixed(3)}</Text>
+          <Text style={styles.coinNameText}>${(price.toFixed(3))}</Text>
             <View style={{ flexDirection: "row" }}>
               <AntDesign
                   name={priceChange24h < 0 ? "caretdown" : "caretup"}
@@ -74,9 +55,9 @@ export default CoinItem
 const styles = StyleSheet.create({
     containerItem: {
     flexDirection: "row",
-    backgroundColor: '#14181b',
-    borderRadius: 10,
-    padding: 12,
+    backgroundColor: '#2c353b',
+    borderRadius: 15,
+    padding: 11,
     marginHorizontal: 5,
     marginBottom: 8
     },
@@ -85,9 +66,11 @@ const styles = StyleSheet.create({
         width: 40,
         marginRight: 10,
         alignSelf: "center",
+        borderRadius: 25 
+        
     },
     coinNameText: {
-        color: '#caffea',
+        color: '#ffffff',
         fontWeight: 'bold',
         fontSize: 16,
         marginBottom: 3,

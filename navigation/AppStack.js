@@ -1,12 +1,11 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ActivityIndicator} from 'react-native';
-import HomeScreen from '../screens/HomeScreen';
+import { ActivityIndicator } from 'react-native';
 import CoinDetailsScreen from '../screens/CoinDetailsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import AppStackBottomTabs from './AppStackBottomTabs';
-import FavouriteListProvider from '../Contexts/FavouriteListContext';
+import FavouriteListProvider from '../contexts/FavouriteListContext';
 import { useFonts } from 'expo-font'
+import {windowHeight, windowWidth} from '../utils/Dimensions'
 
 const Stack = createStackNavigator();
 
@@ -19,19 +18,19 @@ const AppStack = () => {
   });
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size={'large'} />
+    return <ActivityIndicator size={windowWidth/5} color="#faf602" style={{marginTop: windowHeight/2.5}}/>
   }
 
   return (
-      <FavouriteListProvider>
-        <Stack.Navigator 
-          initialRouteName='Root'
-          screenOptions={{headerShown: false}}
-        >
-          <Stack.Screen name={"Root"} component={AppStackBottomTabs}/>
-          <Stack.Screen name={"CoinDetailsScreen"} component={CoinDetailsScreen}/>
-        </Stack.Navigator>
-      </FavouriteListProvider>
+    <FavouriteListProvider>
+      <Stack.Navigator
+        initialRouteName='Root'
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name={"Root"} component={AppStackBottomTabs} />
+        <Stack.Screen name={"CoinDetailsScreen"} component={CoinDetailsScreen} />
+      </Stack.Navigator>
+    </FavouriteListProvider>
   )
 }
 

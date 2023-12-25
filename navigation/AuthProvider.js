@@ -79,7 +79,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     const fetchCoinPrice = async () => {
-      try {
         const userRef = doc(db, 'users', user.email);
         const userDoc = await getDoc(userRef);
 
@@ -91,7 +90,7 @@ export const AuthProvider = ({ children }) => {
             const response = await getDetailedCoinDataAPI(userInfo.order[i].id);
             const result = await response.json();
             const coinId = userInfo.order[i].id;
-            const price = result.data.market_data.price[0].price_latest;
+            const price = result.data.market_data.price[0].price_latest.toFixed(3);
             const isIncrease = userInfo.order[i].isIncrease;
             const target = userInfo.order[i].target;
       
@@ -124,9 +123,7 @@ export const AuthProvider = ({ children }) => {
           }
         }
     
-      } catch (error) {
-        Alert.alert("Error fetching coin price:", error.message);
-      }
+    
     };
 
     const priceCheckInterval = setInterval(() => fetchCoinPrice(), 30000); 
@@ -159,7 +156,8 @@ export const AuthProvider = ({ children }) => {
                 money: 0,
                 coin: [],
                 isAdmin: false,
-                phone: phone
+                phone: phone,
+                order: []
               });
 
             } else {

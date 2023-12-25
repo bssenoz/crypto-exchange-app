@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, RefreshControl } from 'react-native';
 import CoinItem from '../components/CoinItem';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { fetchData } from "../api";
+import { fetchData } from '../services/api';
 import { useFocusEffect } from '@react-navigation/native';
 
 

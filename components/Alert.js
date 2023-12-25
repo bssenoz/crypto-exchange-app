@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from 'react-native-modal';
 
@@ -38,14 +38,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   confirmButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#faf602',
     paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 6,
     alignSelf: 'center',
   },
   confirmButtonText: {
-    color: 'white',
+    color: '#14181b',
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },

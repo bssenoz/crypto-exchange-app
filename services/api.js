@@ -4,7 +4,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "3bcda8179bfb430ebc228cf1cb65cf67",
+          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
         },
       }
     );
@@ -17,7 +17,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "3bcda8179bfb430ebc228cf1cb65cf67",
+          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
         },
       }
     );
@@ -31,7 +31,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "3bcda8179bfb430ebc228cf1cb65cf67",
+          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
         },
       }
     );
@@ -44,7 +44,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "3bcda8179bfb430ebc228cf1cb65cf67",
+          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
         },
       }
     );
@@ -58,7 +58,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "3bcda8179bfb430ebc228cf1cb65cf67",
+          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
         },
       }
     );

@@ -39,42 +39,43 @@ const AppStackBottomTabs = () => {
   }, [user]);
 
   return (
-    <Tab.Navigator 
-        initialRouteName="Home"
-        screenOptions={{
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
         tabBarShowLabel: false,
         headerShown: false,
-        tabBarActiveTintColor: '#18c68b',
-        tabBarInactiveTintColor: '#3d4542',
+        tabBarActiveTintColor: '#faf602',
+        tabBarInactiveTintColor: '#fafaaa',
         tabBarStyle: {
-            height: 60,
-            backgroundColor: '#14181b',
-            borderColor: '#364540',
-            borderTopWidth: 0.5,
-        } 
-    }}>
-        <Tab.Screen name={"Home"} component={HomeScreen} options={{
-            tabBarIcon: ({focused, color}) => (<Ionicons name="ios-home" size={focused ? 30 : 25} color={color} />)
-        }}/>
-          {isAdmin && (
+          height: 50,
+          backgroundColor: '#14181b',
+          borderColor: '#faf602',
+          borderTopWidth: 2,
+        }
+      }}>
+      <Tab.Screen name={"Home"} component={HomeScreen} options={{
+        tabBarIcon: ({ focused, color }) => (<Ionicons name="ios-home" size={focused ? 30 : 25} color={color} />)
+      }} />
+      
+      <Tab.Screen name={"Search"} component={SearchScreen} options={{
+        tabBarIcon: ({ focused, color }) => (<FontAwesome name="search" size={focused ? 30 : 25} color={color} />)
+      }} />
+      <Tab.Screen name={"Favourites"} component={FavouritesScreen} options={{
+        tabBarIcon: ({ focused, color }) => (<MaterialIcons name="favorite" size={focused ? 30 : 25} color={color} />)
+      }} />
+      <Tab.Screen name={"Wallet"} component={WalletScreen} options={{
+        tabBarIcon: ({ focused, color }) => (<Ionicons name="wallet-outline" size={focused ? 30 : 25} color={color} />)
+      }} />
+      <Tab.Screen name={"Profile"} component={ProfileScreen} options={{
+        tabBarIcon: ({ focused, color }) => (<FontAwesome name="user" size={focused ? 30 : 25} color={color} />)
+      }} />
+      {isAdmin && (
         <Tab.Screen name={"Admin"} component={AdminScreen} options={{
-            tabBarIcon: ({ focused, color }) => (<Ionicons name="albums-outline" size={focused ? 30 : 25} color={color} />
-            ),
-          }}
+          tabBarIcon: ({ focused, color }) => (<FontAwesome name="shield" size={focused ? 30 : 25} color={color} />
+          ),
+        }}
         />
       )}
-        <Tab.Screen name={"Search"} component={SearchScreen} options={{
-            tabBarIcon: ({focused, color}) => (<FontAwesome name="search" size={focused ? 30 : 25} color={color} />)
-        }}/>
-        <Tab.Screen name={"Favourites"} component={FavouritesScreen} options={{
-            tabBarIcon: ({focused, color}) => (<MaterialIcons name="favorite" size={focused ? 30 : 25} color={color} />)
-        }}/>
-          <Tab.Screen name={"Wallet"} component={WalletScreen} options={{
-            tabBarIcon: ({focused, color}) => (<Ionicons name="wallet-outline" size={focused ? 30 : 25} color={color} />)
-        }}/>
-        <Tab.Screen name={"Profile"} component={ProfileScreen} options={{
-            tabBarIcon: ({focused, color}) => (<FontAwesome name="user" size={focused ? 30 : 25} color={color} />)
-        }}/>
     </Tab.Navigator>
   );
 }

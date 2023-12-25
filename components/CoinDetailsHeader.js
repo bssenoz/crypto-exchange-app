@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Image, Modal, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, Modal, TextInput, TouchableOpacity, TouchableHighlight, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useFavouriteList } from "../Contexts/FavouriteListContext";
+import { useFavouriteList } from "../contexts/FavouriteListContext";
 import { AuthContext } from "../navigation/AuthProvider";
 import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -14,7 +14,11 @@ const CoinDetailsHeader = (props) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [notificationValue, setNotificationValue] = useState("");
-  const [isIncrease, setIncrease] = useState(false);
+
+
+  const [isIncrease, setIncrease] = useState(null);
+  const [isPressed, setIsPressed] = useState(true);
+
 
   const sliceName = (name) => {
     if (name && name.length > 10) {
@@ -60,10 +64,6 @@ const CoinDetailsHeader = (props) => {
     setModalVisible(!isModalVisible);
   };
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-  
   const handleNotification = async () => {
     await storeOrderInDatabase(coinId, notificationValue, isIncrease);
     toggleModal();
@@ -101,6 +101,17 @@ const CoinDetailsHeader = (props) => {
     }
   };
 
+  const handlePressIn = () => {
+    setIsPressed(true);
+    setIncrease(true);
+  };
+
+  const handlePressOut = () => {
+    setIsPressed(false);
+    setIncrease(false);
+  };
+
+
   return (
     <View style={styles.headerContainer}>
       <Ionicons
@@ -127,7 +138,14 @@ const CoinDetailsHeader = (props) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Alarm Kur</Text>
+            <TouchableOpacity onPress={toggleModal} style={{ alignSelf: 'flex-start' }}>
+              <AntDesign name="close" size={35} color="#14181b" />
+            </TouchableOpacity>
+            <View style={styles.modalHeader}>
+
+              <Text style={styles.modalText}>Alarm Kur</Text>
+            </View>
+
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
@@ -137,18 +155,28 @@ const CoinDetailsHeader = (props) => {
               />
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                style={[styles.button, styles.increaseButton]}
-                onPress={() => setIncrease(true)}
+              <Pressable
+                style={[
+                  styles.button,
+                  styles.increaseButton,
+
+                  { backgroundColor: isPressed ? '#0fd900' : '#97e391' }
+                ]}
+                onPressIn={handlePressIn}
               >
                 <Text style={styles.buttonText}>Yüksek</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, styles.decreaseButton]}
-                onPress={() => setIncrease(false)}
+              </Pressable>
+              <Pressable
+                style={[
+                  styles.button,
+                  styles.decreaseButton,
+                  { backgroundColor: isPressed ? '#fa8e8e' : '#ff0000' }
+
+                ]}
+                onPressIn={handlePressOut}
               >
                 <Text style={styles.buttonText}>Düşük</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <TouchableOpacity
               style={styles.buttonSave}
@@ -222,7 +250,6 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 20,
     paddingHorizontal: 10,
     width: 200,
     borderRadius: 3,
@@ -247,9 +274,9 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 20,
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: "bold",
-    color: "#0b0d11",
+    color: "#14181b",
   },
   iconContainer: {
     flexDirection: 'row',
@@ -259,7 +286,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#faf602",
     padding: 10,
     borderRadius: 5,
-    marginTop: 20,
+    marginTop: 50,
+    width: 150,
+
   },
   buttonText: {
     color: '#14181b',
@@ -273,18 +302,28 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   increaseButton: {
-    marginRight: 70,
+    marginRight: 10,
     backgroundColor: "#00bd0a",
     padding: 10,
+    width: 150,
     borderRadius: 5,
     marginTop: 20,
 
   },
   decreaseButton: {
-    marginRight: 5,
     backgroundColor: "#d90404",
     padding: 10,
+    width: 150,
     borderRadius: 5,
     marginTop: 20,
+  },
+  activeButtonIncrease: {
+    backgroundColor: 'red',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+
   },
 });

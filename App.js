@@ -1,6 +1,7 @@
 import React from "react";
 import Providers from "./navigation";
 import * as Notifications from "expo-notifications";
+import { LogBox } from 'react-native';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => {
@@ -13,6 +14,7 @@ Notifications.setNotificationHandler({
 });
 
 const App = () => {
+  LogBox.ignoreAllLogs();
   return <Providers />;
 };
 

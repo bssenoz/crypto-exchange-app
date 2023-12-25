@@ -14,7 +14,7 @@ import { Alert } from 'react-native';
 
 const CoinDetailsScreen = () => {
   const [selectedChartData, setSelectedChartData] = useState(null);
-  const [selectedButton, setSelectedButton] = useState('Yıllık');
+  const [selectedButton, setSelectedButton] = useState('Saatlik');
   const [coinPrice, setCoinPrice] = useState(null);
   const [coinName, setCoinName] = useState(null);
   const [coinSymbol, setCoinSymbol] = useState(null);
@@ -123,7 +123,6 @@ const CoinDetailsScreen = () => {
 
       if (parseFloat(userData.money) < totalCost) {
         setBuyInsufficientModalVisible(true);
-        console.log('Yetersiz bakiye');
         return;
       }
 
@@ -223,7 +222,7 @@ const CoinDetailsScreen = () => {
   };
 
   if (!coinPrice || !coin365Days) {
-    return <ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }} size="large" />
+    return <ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignContent: 'center', color: '#faf602' }} size="large" />
   }
 
   const data365Days = coin365Days.map((price) => ({ timestamp: price.timestamp, value: price.price }));
@@ -261,7 +260,7 @@ const CoinDetailsScreen = () => {
 
   return (
     <View>
-      <LineChart.Provider data={selectedChartData || data365Days}>
+      <LineChart.Provider data={selectedChartData || data60Minutes}>
         <CoinDetailsHeader image={coinLogo} name={coinName} marketCapRank={coinRank} coinId={coinID} />
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View>
@@ -276,15 +275,14 @@ const CoinDetailsScreen = () => {
           <TouchableHighlight
             style={{
               ...styles.buttonDate,
-              backgroundColor: selectedButton === 'Yıllık' ? '#faf602' : '#fafaaa'
+              backgroundColor: selectedButton === 'Saatlik' ? '#faf602' : '#fafaaa'
             }}
             activeOpacity={0.6}
             underlayColor="#faf602"
-            onPress={() => handleSelectChartData(data365Days, 'Yıllık')}
+            onPress={() => handleSelectChartData(data60Minutes, 'Saatlik')}
           >
-            <Text>Yıllık</Text>
+            <Text>Saatlik</Text>
           </TouchableHighlight>
-
           <TouchableHighlight
             style={{
               ...styles.buttonDate,
@@ -296,20 +294,18 @@ const CoinDetailsScreen = () => {
           >
             <Text>Günlük</Text>
           </TouchableHighlight>
-
           <TouchableHighlight
             style={{
               ...styles.buttonDate,
-              backgroundColor: selectedButton === 'Saatlik' ? '#faf602' : '#fafaaa'
+              backgroundColor: selectedButton === 'Yıllık' ? '#faf602' : '#fafaaa'
             }}
             activeOpacity={0.6}
             underlayColor="#faf602"
-            onPress={() => handleSelectChartData(data60Minutes, 'Saatlik')}
+            onPress={() => handleSelectChartData(data365Days, 'Yıllık')}
           >
-            <Text>Saatlik</Text>
+            <Text>Yıllık</Text>
           </TouchableHighlight>
         </View>
-
 
         <GestureHandlerRootView style={{ marginTop: 20 }}>
           <LineChart height={screenWidth / 2} width={screenWidth} >
@@ -346,7 +342,7 @@ const CoinDetailsScreen = () => {
 
         <View style={styles.converterContainer}>
           <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-            <Image source={{ uri: coinLogo }} style={{ width: 25, height: 25, marginEnd: 5 }} />
+            <Image source={{ uri: coinLogo }} style={{ width: 25, height: 25, marginEnd: 5, borderRadius: 20 }} />
             <Text style={{ color: 'white' }}>{coinSymbol}</Text>
             <TextInput
               style={styles.input}
@@ -370,6 +366,7 @@ const CoinDetailsScreen = () => {
           </View>
         </View>
       </LineChart.Provider>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={{ ...styles.button, backgroundColor: '#00bd0a' }}

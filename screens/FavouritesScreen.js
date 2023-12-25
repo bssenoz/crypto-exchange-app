@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import CoinItemFavourite from '../components/CoinItemFavourite';
-import { useFavouriteList } from '../Contexts/FavouriteListContext';
+import { useFavouriteList } from '../contexts/FavouriteListContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getDetailedCoinDataAPI } from "../services/api";
 import { useFocusEffect } from '@react-navigation/native';
@@ -18,7 +18,7 @@ const FavouritesScreen = () => {
     setIsArrayEmpty(false);
 
     const coinDataArray = [];
-    
+
     if (favouriteCoinIds.length === 0) {
       setIsArrayEmpty(true);
       setLoading(false);
@@ -56,7 +56,6 @@ const FavouritesScreen = () => {
   useFocusEffect(
     React.useCallback(() => {
       fetchFavouriteCoins();
-
       const intervalId = setInterval(() => {
         fetchFavouriteCoins();
       }, 30000);

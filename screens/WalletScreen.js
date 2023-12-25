@@ -126,7 +126,6 @@ const WalletScreen = () => {
   const handleConfirmSell = async () => {
     try {
       const sellAmountFloat = parseFloat(sellAmount.replace(',', '.'));
-      console.log("sellAmountFloat: ", sellAmountFloat)
 
       if (sellAmountFloat <= 0) {
         Alert.alert('Hata', 'Geçerli bir miktar girin.');
@@ -141,7 +140,6 @@ const WalletScreen = () => {
 
       const updatedCoins = userData.coin.map((c) => {
         if (c.name === selectedCoinName) {
-          console.log("c: ", c)
           const updatedPiece = c.piece - sellAmountFloat;
           const updatedCurrentPrice = (selectedCoin.current_price - (sellAmountFloat * selectedCoin.price) / c.piece).toFixed(3);
 
@@ -181,7 +179,7 @@ const WalletScreen = () => {
     try {
       const coinPrice = parseFloat(selectedCoinPrice);
       const purchasedAmount = parseFloat(buyAmount.replace(',', '.'));
-      const totalCost = coinPrice/(selectedCoinPiece/purchasedAmount);
+      const totalCost = coinPrice / (selectedCoinPiece / purchasedAmount);
 
       if (userData.money < totalCost) {
         setBuyInsufficientModalVisible(true);
@@ -236,6 +234,13 @@ const WalletScreen = () => {
     setModalVisible(!isModalVisible);
   };
 
+  const sliceName = (name) => {
+    if (name && name.length > 8) {
+      return `${name.substring(0, 8)}..`;
+    }
+    return name;
+  };
+
   const renderCoinItem = ({ item }) => {
     const priceDifference = (item.current_price - item.price).toFixed(3);
 
@@ -251,13 +256,13 @@ const WalletScreen = () => {
     return (
       <View style={styles.coinContainer}>
         <View style={styles.coinInfo}>
-          <Text style={styles.coinText}>{item.name}</Text>
+          <Text style={styles.coinText}>{sliceName(item.name)}</Text>
           <Text style={styles.coinText}>{item.piece}</Text>
           <Text style={styles.coinText}>${item.current_price}</Text>
           <Text style={[styles.coinText, { color: textColor }]}>${priceDifference}</Text>
         </View>
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => handleBuyCoin(item.name, item.price,item.piece)}>
+          <TouchableOpacity style={[styles.button, styles.buyButton]} onPress={() => handleBuyCoin(item.name, item.price, item.piece)}>
             <Text style={styles.buyButtonText}>AL</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.sellButton]} onPress={() => handleSellCoin(item.name, item.price)}>
@@ -315,7 +320,7 @@ const WalletScreen = () => {
         renderItem={renderCoinItem}
         ListHeaderComponent={() => (
           <View style={styles.container}>
-            <Text style={styles.coinTitle}>COINLER</Text>
+            <Text style={styles.coinTitle}>Portföyüm</Text>
           </View>
         )}
         ListEmptyComponent={() => (
@@ -455,8 +460,9 @@ const styles = StyleSheet.create({
   coinTitle2: {
     ...TITLE,
     textAlign: 'center',
-    color: 'gray', 
-    marginTop: 120
+    color: '#fafaaa',
+    marginTop: 120,
+    fontSize: 20,
   },
   coinInfo: {
     flexDirection: 'row',
@@ -482,14 +488,16 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
   },
   addMoneyButton: {
-    backgroundColor: 'blue',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 3,
+    backgroundColor: '#faf602',
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    top: 20,
+    right: 18,
+    borderRadius: 4,
     alignSelf: 'flex-end',
   },
   addMoneyButtonText: {
-    color: 'white',
+    color: '#14181b',
     fontWeight: 'bold',
     textTransform: 'uppercase',
   },
@@ -518,7 +526,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   addButton: {
-    backgroundColor: 'green',
+    backgroundColor: '#00bd0a',
     paddingTop: 10,
     paddingLeft: 40,
     paddingRight: 40,
@@ -554,7 +562,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   sellButton: {
-    backgroundColor: '#ff0000',
+    backgroundColor: '#d90404',
     marginTop: 10,
     paddingVertical: 8,
     paddingHorizontal: 12,

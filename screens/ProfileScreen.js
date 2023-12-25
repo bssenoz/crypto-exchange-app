@@ -117,14 +117,14 @@ const ProfileScreen = () => {
     <ScrollView>
       <View style={{ alignItems: "center" }}>
         <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-          <Feather name="user" size={25} color="#faf602" />
+          <Feather name="user" size={30} color="#faf602" />
           <Text
             style={{
               alignItems: 'center',
               fontWeight: '500',
               fontFamily: "Roboto-Regular",
               color: "#faf602",
-              fontSize: 25,
+              fontSize: 30,
               letterSpacing: 1,
               paddingHorizontal: 20,
               paddingBottom: 10,
@@ -135,13 +135,13 @@ const ProfileScreen = () => {
         </View>
       </View>
       <View>
-        <View style={{ alignItems: "center", paddingVertical: 10 }}>
+        <View style={{ alignItems: "center", paddingVertical: 8 }}>
           {image === null ? (
             <View
               style={{
                 height: 100,
                 width: 100,
-                backgroundColor: "#3d4542",
+                backgroundColor: "#6d897e",
                 borderRadius: 100,
                 justifyContent: "center",
                 alignItems: "center",
@@ -162,7 +162,7 @@ const ProfileScreen = () => {
           alignItems: "center",
         }}
       >
-        <MaterialIcons name="email" size={24} color="#3d4542" />
+        <MaterialIcons name="email" size={24} color="#6d897e" />
         <Text style={styles.text}>{user.email}</Text>
       </View>
       <View style={{ paddingTop: 15, paddingLeft: 15 }}>
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    color: "#3d4542",
+    color: "#6d897e",
     paddingStart: 8,
   },
   profilePicContainer: {

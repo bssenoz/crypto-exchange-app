@@ -1,10 +1,8 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-
 import OnboardingScreen from '../screens/OnboardingScreen'
 import LoginScreen from '../screens/LoginScreen';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SignupScreen from '../screens/SignupScreen';
 
@@ -50,9 +48,10 @@ const AuthStack = () => {
         component={SignupScreen}
         options={({navigation}) => ({
           title: '',
-          headerTintColor: '#18c68b',
+          size:"10",
+          headerTintColor: '#faf602',
           headerStyle: {
-            backgroundColor: '#0b0d11',
+            backgroundColor: '#14181b',
             elevation: 0,
           }
         })}
