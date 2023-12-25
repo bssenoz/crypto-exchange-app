@@ -7,8 +7,6 @@ import { AuthContext } from "../navigation/AuthProvider";
 import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
-import { useFavouriteList } from "../Contexts/FavouriteListContext";
-
 const CoinDetailsHeader = (props) => {
   const { image, name, coinId, marketCapRank } = props;
   const { user } = useContext(AuthContext);
@@ -17,6 +15,13 @@ const CoinDetailsHeader = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [notificationValue, setNotificationValue] = useState("");
   const [isIncrease, setIncrease] = useState(false);
+
+  const sliceName = (name) => {
+    if (name && name.length > 10) {
+      return `${name.substring(0, 10)}..`;
+    }
+    return name;
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -46,9 +51,13 @@ const CoinDetailsHeader = (props) => {
 
   const handleFavouriteListCoin = () => {
     if (chechIfCoinIsFavourite()) {
-      return removeFavouriteCoinId(coinId);
+      return removeFavouriteCoinId(coinId, name);
     }
-    return storeFavouriteCoinId(coinId);
+    return storeFavouriteCoinId(coinId, name);
+  };
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
   };
 
   const handleNotification = async () => {
@@ -97,14 +106,14 @@ const CoinDetailsHeader = (props) => {
         onPress={() => navigation.goBack()}
       />
       <View style={styles.coinContainer}>
-        <Image source={{ uri: image }} style={{ width: 25, height: 25 }} />
-        <Text style={styles.coinTitle}>{name}</Text>
+        <Image source={{ uri: image }} style={{ width: 25, height: 25, borderRadius: 15 }} />
+        <Text style={styles.coinTitle}>{sliceName(name)}</Text>
         <View style={styles.rankContainer}>
           <Text style={styles.coinRank}>#{marketCapRank}</Text>
         </View>
       </View>
 
-      <FontAwesome name="bell" size={20} color="#18c68b" onPress={toggleModal} />
+      <FontAwesome name="bell" style={{ left: 8 }} size={25} color="#faf602" onPress={toggleModal} />
 
       <Modal
         animationType="slide"
@@ -118,6 +127,7 @@ const CoinDetailsHeader = (props) => {
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
+                placeholder="Fiyat Giriniz..."
                 onChangeText={(text) => setNotificationValue(text)}
                 value={notificationValue}
               />
@@ -127,17 +137,17 @@ const CoinDetailsHeader = (props) => {
                 style={[styles.button, styles.increaseButton]}
                 onPress={() => setIncrease(true)}
               >
-                <Text style={styles.buttonText}>Yükselince</Text>
+                <Text style={styles.buttonText}>Yüksek</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.button, styles.decreaseButton]}
                 onPress={() => setIncrease(false)}
               >
-                <Text style={styles.buttonText}>Düşünce</Text>
+                <Text style={styles.buttonText}>Düşük</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonSave}
               onPress={handleNotification}
             >
               <Text style={styles.buttonText}>Kaydet</Text>
@@ -172,11 +182,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 10
+    padding: 10,
+    backgroundColor: "#2c353b",
+    borderRadius: 20,
+
   },
   coinContainer: {
     flexDirection: "row",
     alignItems: "center",
+
   },
   coinTitle: {
     color: "#faf602",
@@ -224,9 +238,11 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     elevation: 5,
+    backgroundColor: 'white'
+
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: 20,
     fontSize: 18,
     fontWeight: "bold",
     color: "#0b0d11",
@@ -235,26 +251,36 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingBottom: 22
   },
-  button: {
-    backgroundColor: "#18c68b",
+  buttonSave: {
+    backgroundColor: "#faf602",
     padding: 10,
     borderRadius: 5,
     marginTop: 20,
   },
   buttonText: {
-    color: 'white',
+    color: '#14181b',
     textAlign: 'center',
     fontSize: 16,
+    fontWeight: 'bold'
+
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
   },
   increaseButton: {
-    marginRight: 5,
+    marginRight: 70,
+    backgroundColor: "#00bd0a",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+
   },
   decreaseButton: {
-    marginLeft: 5,
+    marginRight: 5,
+    backgroundColor: "#d90404",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
   },
 });
