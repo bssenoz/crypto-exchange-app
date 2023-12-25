@@ -1,11 +1,11 @@
-import { Dimensions, StyleSheet, View, Text, TextInput, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { Dimensions, StyleSheet, View, Text, TextInput, Image, ActivityIndicator, TouchableOpacity, TouchableHighlight } from 'react-native'
 import React, { useState, useEffect, useContext } from 'react'
 import CoinDetailsHeader from '../components/CoinDetailsHeader';
 import { LineChart } from 'react-native-wagmi-charts';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useRoute } from '@react-navigation/native';
-import { getDetailedCoinDataAPI, getCoin365DayPricesAPI, getCoin24HaurPricesAPI, getCoin60MinutePricesAPI } from "../api";
+import { getDetailedCoinDataAPI, getCoin365DayPricesAPI, getCoin24HaurPricesAPI, getCoin60MinutePricesAPI } from "../services/api";
 import { AuthContext } from "../navigation/AuthProvider";
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -13,6 +13,8 @@ import CustomAlert from '../components/Alert';
 import { Alert } from 'react-native';
 
 const CoinDetailsScreen = () => {
+  const [selectedChartData, setSelectedChartData] = useState(null);
+  const [selectedButton, setSelectedButton] = useState('Yıllık');
   const [coinPrice, setCoinPrice] = useState(null);
   const [coinName, setCoinName] = useState(null);
   const [coinSymbol, setCoinSymbol] = useState(null);
@@ -228,9 +230,9 @@ const CoinDetailsScreen = () => {
   data365Days.reverse();
   data365Days.pop();
 
-  const data24Haurs = coin24Hours.map((price) => ({ timestamp: price.timestamp, value: price.price }));
-  data24Haurs.reverse();
-  data24Haurs.pop();
+  const data24Hours = coin24Hours.map((price) => ({ timestamp: price.timestamp, value: price.price }));
+  data24Hours.reverse();
+  data24Hours.pop();
 
   const data60Minutes = coin60Minutes.map((price) => ({ timestamp: price.timestamp, value: price.price }));
   data60Minutes.reverse();
@@ -251,9 +253,15 @@ const CoinDetailsScreen = () => {
     setCoinValue((floatValue / coinPrice[0].price_latest.toFixed(2)).toString())
   }
 
+  const handleSelectChartData = (selectedData, buttonName) => {
+    setSelectedChartData(selectedData);
+    setSelectedButton(buttonName);
+  };
+
+
   return (
     <View>
-      <LineChart.Provider data={data365Days}>
+      <LineChart.Provider data={selectedChartData || data365Days}>
         <CoinDetailsHeader image={coinLogo} name={coinName} marketCapRank={coinRank} coinId={coinID} />
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View>
@@ -264,6 +272,44 @@ const CoinDetailsScreen = () => {
             <Text style={styles.text}>{(coinPrice[0].price_change_percentage_24h * 100).toFixed(2)}%</Text>
           </View>
         </View>
+        <View style={{ ...styles.buttonDateContainer }}>
+          <TouchableHighlight
+            style={{
+              ...styles.buttonDate,
+              backgroundColor: selectedButton === 'Yıllık' ? '#faf602' : '#fafaaa'
+            }}
+            activeOpacity={0.6}
+            underlayColor="#faf602"
+            onPress={() => handleSelectChartData(data365Days, 'Yıllık')}
+          >
+            <Text>Yıllık</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            style={{
+              ...styles.buttonDate,
+              backgroundColor: selectedButton === 'Günlük' ? '#faf602' : '#fafaaa'
+            }}
+            activeOpacity={0.6}
+            underlayColor="#faf602"
+            onPress={() => handleSelectChartData(data24Hours, 'Günlük')}
+          >
+            <Text>Günlük</Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            style={{
+              ...styles.buttonDate,
+              backgroundColor: selectedButton === 'Saatlik' ? '#faf602' : '#fafaaa'
+            }}
+            activeOpacity={0.6}
+            underlayColor="#faf602"
+            onPress={() => handleSelectChartData(data60Minutes, 'Saatlik')}
+          >
+            <Text>Saatlik</Text>
+          </TouchableHighlight>
+        </View>
+
 
         <GestureHandlerRootView style={{ marginTop: 20 }}>
           <LineChart height={screenWidth / 2} width={screenWidth} >
@@ -326,18 +372,20 @@ const CoinDetailsScreen = () => {
       </LineChart.Provider>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={{ ...styles.button, backgroundColor: '#0CC76E' }}
+          style={{ ...styles.button, backgroundColor: '#00bd0a' }}
           onPress={handleBuy}
         >
           <Text style={styles.buttonText}>AL</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{ ...styles.button, backgroundColor: '#C70C4E' }}
+          style={{ ...styles.button, backgroundColor: '#d90404' }}
           onPress={handleSell}
         >
           <Text style={styles.buttonText}>SAT</Text>
         </TouchableOpacity>
+
+
       </View>
 
       <CustomAlert
@@ -397,7 +445,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#323b42',
     padding: 15,
     borderRadius: 10,
-    marginTop: 20
+    marginTop: 40
   },
   text: {
     color: 'white',
@@ -425,7 +473,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+    marginTop: 30,
   },
   button: {
     flex: 1,
@@ -435,9 +483,23 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 5,
   },
+  buttonDate: {
+    flex: 1,
+    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginHorizontal: 5,
+  },
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  buttonDateContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    paddingHorizontal: 20,
   },
 })
