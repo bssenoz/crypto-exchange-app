@@ -60,6 +60,10 @@ const CoinDetailsHeader = (props) => {
     setModalVisible(!isModalVisible);
   };
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  
   const handleNotification = async () => {
     await storeOrderInDatabase(coinId, notificationValue, isIncrease);
     toggleModal();

@@ -4,7 +4,7 @@ import { AuthContext } from "../navigation/AuthProvider";
 import { doc, getDoc, updateDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import Modal from 'react-native-modal';
-import { getDetailedCoinDataAPI } from "../api";
+import { getDetailedCoinDataAPI } from "../services/api";
 import { Ionicons } from '@expo/vector-icons';
 import CustomAlert from '../components/Alert';
 import { Alert } from 'react-native';
