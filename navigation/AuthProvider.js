@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
             const response = await getDetailedCoinDataAPI(userInfo.order[i].id);
             const result = await response.json();
             const coinId = userInfo.order[i].id;
-            const price = result.data.market_data.price[0].price_latest.toFixed(3);
+            const price = result.data.market_data.price[0].price_latest.toFixed(2);
             const isIncrease = userInfo.order[i].isIncrease;
             const target = userInfo.order[i].target;
 

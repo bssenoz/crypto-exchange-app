@@ -76,7 +76,7 @@ const CoinDetailsScreen = () => {
     setCoinName(resultCoinName);
     setCoinSymbol(resultCoinSymbol);
     setCoinLogo(resultCoinLogo);
-    setUsdValue(resultCoinPrice[0].price_latest.toFixed(3).toString());
+    setUsdValue(resultCoinPrice[0].price_latest.toFixed(2).toString());
   }
 
   useFocusEffect(
@@ -248,13 +248,13 @@ const CoinDetailsScreen = () => {
   const changeCoinValue = (value) => {
     setCoinValue(value);
     const floatValue = parseFloat(value.replace(',', '.')) || 0
-    setUsdValue((floatValue * coinPrice[0].price_latest.toFixed(2)).toFixed(3).toString())
+    setUsdValue((floatValue * coinPrice[0].price_latest.toFixed(2)).toFixed(2).toString())
   }
 
   const changeUsdValue = (value) => {
     setUsdValue(value)
     const floatValue = parseFloat(value.replace(',', '.')) || 0
-    setCoinValue((floatValue / coinPrice[0].price_latest.toFixed(2)).toFixed(3).toString())
+    setCoinValue((floatValue / coinPrice[0].price_latest.toFixed(2)).toFixed(2).toString())
   }
 
   const handleSelectChartData = (selectedData, buttonName) => {
@@ -270,7 +270,7 @@ const CoinDetailsScreen = () => {
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View>
             <Text style={styles.text} >Güncel Fiyat</Text>
-            <Text style={styles.currentPrice}>${coinPrice[0].price_latest.toFixed(3)}</Text>
+            <Text style={styles.currentPrice}>${coinPrice[0].price_latest.toFixed(2)}</Text>
           </View>
           <View style={{ backgroundColor: percentageColor, padding: 10, borderRadius: 10 }}>
             <Text style={styles.text}>{(coinPrice[0].price_change_percentage_24h * 100).toFixed(2)}%</Text>

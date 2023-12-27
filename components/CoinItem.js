@@ -33,7 +33,7 @@ const CoinItem = ({marketCoin}) => {
         </View>
 
         <View style={{ marginLeft: "auto", alignItems: "flex-end" }}>
-          <Text style={styles.coinNameText}>${(price.toFixed(3))}</Text>
+          <Text style={styles.coinNameText}>${(price.toFixed(2))}</Text>
             <View style={{ flexDirection: "row" }}>
               <AntDesign
                   name={priceChange24h < 0 ? "caretdown" : "caretup"}

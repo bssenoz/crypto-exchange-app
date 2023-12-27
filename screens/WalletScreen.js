@@ -61,7 +61,7 @@ const WalletScreen = () => {
           const result = await fetchedCoinsData.json();
           const updatedCoin = {
             ...userData.coin[i],
-            current_price: (result.data.market_data.price[0].price_latest * userData.coin[i].piece).toFixed(3),
+            current_price: (result.data.market_data.price[0].price_latest).toFixed(2),
           };
 
           updatedCoins.push(updatedCoin);
@@ -87,7 +87,7 @@ const WalletScreen = () => {
     let portfolioValue = 0;
 
     for (const coin of userData.coin) {
-      portfolioValue += parseFloat(coin.current_price || 0);
+      portfolioValue += parseFloat(coin.current_price*coin.piece || 0);
     }
 
     return portfolioValue.toFixed(2);
@@ -109,7 +109,6 @@ const WalletScreen = () => {
       };
     }, [user])
   );
-
 
   const handleSellCoin = async (coinName, coinPrice) => {
     try {
@@ -149,7 +148,6 @@ const WalletScreen = () => {
       const updatedCoins = userData.coin.map((c) => {
         if (c.name === selectedCoinName) {
           const updatedPiece = c.piece - sellAmountFloat;
-          const updatedCurrentPrice = (selectedCoin.current_price - (sellAmountFloat * selectedCoin.price) / c.piece).toFixed(3);
 
           if (updatedPiece <= 0) {
             return null;
@@ -158,7 +156,8 @@ const WalletScreen = () => {
           return {
             ...c,
             piece: updatedPiece,
-            current_price: updatedCurrentPrice,
+            price: c.price - sellAmountFloat*c.current_price,
+            current_price: selectedCoin.current_price,
           };
         }
         return c;
@@ -167,12 +166,12 @@ const WalletScreen = () => {
       const updatedUserData = {
         ...userData,
         coin: updatedCoins,
-        money: parseFloat(userData.money) + ((sellAmountFloat * selectedCoin.current_price) / selectedCoin.piece),
+        money: parseFloat(userData.money) + (sellAmountFloat * selectedCoin.current_price),
       };
 
       const docRef = doc(db, "users", user.email);
       await updateDoc(docRef, { coin: updatedUserData.coin, money: updatedUserData.money });
-
+      getDetailedCoin()
       setUserData(updatedUserData);
       setSellModalVisible(false);
       setSellAmount('');
@@ -196,11 +195,12 @@ const WalletScreen = () => {
 
       const updatedCoins = userData.coin.map((c) => {
         if (c.name === selectedCoinName) {
+
           return {
             ...c,
             piece: c.piece + purchasedAmount,
-            price: (coinPrice * (c.piece + purchasedAmount)).toFixed(3),
-            current_price: (coinPrice * (c.piece + purchasedAmount)).toFixed(3)
+            price: ((c.piece + purchasedAmount)),
+            current_price: c.current_price
           };
         }
         return c;
@@ -250,7 +250,7 @@ const WalletScreen = () => {
   };
 
   const renderCoinItem = ({ item }) => {
-    const priceDifference = (item.current_price - item.price).toFixed(2);
+    const priceDifference = (item.current_price*item.piece - item.price).toFixed(2);
 
     let textColor;
     if (priceDifference < 0) {
@@ -266,7 +266,7 @@ const WalletScreen = () => {
         <View style={styles.coinInfo}>
           <Text style={styles.coinText}>{sliceName(item.name)}</Text>
           <Text style={styles.coinText}>{item.piece}</Text>
-          <Text style={styles.coinText}>${item.current_price}</Text>
+          <Text style={styles.coinText}>${(item.current_price*item.piece).toFixed(2)}</Text>
           <Text style={[styles.coinText, { color: textColor }]}>${priceDifference}</Text>
         </View>
         <View style={styles.buttonRow}>

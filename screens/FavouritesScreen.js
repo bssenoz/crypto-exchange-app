@@ -29,12 +29,12 @@ const FavouritesScreen = () => {
           const result = await fetchedCoinsData.json();
 
           coinDataArray.push({
-            coinPrice: result.data.market_data.price[0].price_latest.toFixed(3),
+            coinPrice: result.data.market_data.price[0].price_latest.toFixed(2),
             coinName: result.data.name,
             coinSymbol: result.data.symbol,
             coinLogo: result.data.logo,
             coinID: result.data.id,
-            price_change_24h: result.data.market_data.price[0].price_change_percentage_24h.toFixed(3)
+            price_change_24h: result.data.market_data.price[0].price_change_percentage_24h.toFixed(2)
           });
         }
 
