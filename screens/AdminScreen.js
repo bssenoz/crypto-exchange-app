@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Modal, Activ
 import { AuthContext } from '../navigation/AuthProvider';
 import { db } from '../firebase';
 import { collection, getDocs, query, where, deleteDoc, doc } from 'firebase/firestore';
-import { Feather, FontAwesome5, AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import CustomAlert from '../components/Alert';
 
 const AdminScreen = () => {
@@ -12,7 +12,6 @@ const AdminScreen = () => {
   const [isDelete, setDelete] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-
 
   useEffect(() => {
     const fetchUsers = async () => {

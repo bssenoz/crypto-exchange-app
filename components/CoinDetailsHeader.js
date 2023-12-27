@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Modal, TextInput, TouchableOpacity, TouchableHighlight, Pressable } from "react-native";
+import { StyleSheet, Text, View, Image, Modal, TextInput, TouchableOpacity, Pressable } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { Ionicons, FontAwesome, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -14,11 +14,8 @@ const CoinDetailsHeader = (props) => {
   const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [notificationValue, setNotificationValue] = useState("");
-
-
   const [isIncrease, setIncrease] = useState(null);
   const [isPressed, setIsPressed] = useState(true);
-
 
   const sliceName = (name) => {
     if (name && name.length > 10) {
@@ -78,7 +75,8 @@ const CoinDetailsHeader = (props) => {
         const userData = docSnap.data();
         if (userData && Array.isArray(userData.order)) {
           const newOrder = {
-            id: coinId,
+            id: `${coinId}${targetValue}${isIncrease}`,
+            name: coinId,
             target: targetValue,
             isIncrease: isIncrease,
           };
@@ -110,7 +108,6 @@ const CoinDetailsHeader = (props) => {
     setIsPressed(false);
     setIncrease(false);
   };
-
 
   return (
     <View style={styles.headerContainer}>
@@ -269,8 +266,9 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: "center",
     elevation: 5,
-    backgroundColor: 'white'
-
+    alignSelf: 'center',
+    maxWidth: 400,
+    width: '95%', 
   },
   modalText: {
     marginBottom: 20,

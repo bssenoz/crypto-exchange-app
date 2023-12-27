@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from 'react-native-modal';
 
-const Alert = ({ isVisible, title, message, onConfirm }) => {
+const Alert = ({ isVisible = false, title, message, onConfirm }) => {
   return (
     <Modal isVisible={isVisible} style={styles.modal}>
       <View style={styles.container}>

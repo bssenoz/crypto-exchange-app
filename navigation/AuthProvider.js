@@ -5,12 +5,15 @@ import { auth, db } from '../firebase';
 import { Alert } from 'react-native';
 import { getDetailedCoinDataAPI } from "../services/api";
 import * as Notifications from "expo-notifications";
+import CustomAlert from '../components/Alert';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
+  const [isLoginError, setLoginError] = useState(null);
+  const [isRegisterError, setRegisterError] = useState(null);
 
   onAuthStateChanged(auth, (user) => {
     setUser(user);
@@ -42,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      Alert.alert('Error', `${error.message}`);
+      console.log(error)
     }
   };
 
@@ -145,7 +148,7 @@ export const AuthProvider = ({ children }) => {
             await signInWithEmailAndPassword(auth, email, password);
           } catch (e) {
             console.log(e);
-            Alert.alert('Error', `${e.message}`);
+            setLoginError(true);
           }
         },
         register: async (email, password, phone) => {
@@ -166,7 +169,7 @@ export const AuthProvider = ({ children }) => {
               Alert.alert("User not created.");
             }
           } catch (e) {
-            Alert.alert('Error', `${e.message}`);
+            setRegisterError(true)
           }
         },
 
@@ -180,6 +183,23 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
+      <CustomAlert
+        isVisible={isLoginError}
+        title="Hatalı Giriş!"
+        message="Kullanıcı adı ve mailinizi kontrol ediniz."
+        onConfirm={() => {
+          setLoginError(false);
+        }}
+      />
+
+      <CustomAlert
+        isVisible={isRegisterError}
+        title="Hesap Oluşturulamadı!"
+        message="Lütfen geçerli bir email yazınız."
+        onConfirm={() => {
+          setRegisterError(false);
+        }}
+      />
     </AuthContext.Provider>
   );
 };

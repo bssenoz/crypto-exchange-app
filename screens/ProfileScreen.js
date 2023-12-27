@@ -8,7 +8,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import { getDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-
+import CustomAlert from '../components/Alert';
 
 const ProfileScreen = () => {
   const { user, logout } = useContext(AuthContext);
@@ -19,8 +19,9 @@ const ProfileScreen = () => {
 
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [isEditingPhoneNumber, setIsEditingPhoneNumber] = useState(false);
-
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isPhoneSuccess, setPhoneSucces] = useState(false);
+  const [isPhoneError, setPhoneError] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -104,12 +105,11 @@ const ProfileScreen = () => {
       await updateDoc(docRef, {
         phone: newPhoneNumber,
       });
-      console.log("Phone number updated successfully!");
-
       setIsEditingPhoneNumber(false);
+      setPhoneSucces(true);
       fetchUser();
     } catch (error) {
-      console.error('Error updating phone number:', error);
+      setPhoneError(true);
     }
   };
 
@@ -288,6 +288,23 @@ const ProfileScreen = () => {
         </View>
       </Modal>
 
+      <CustomAlert
+        isVisible={isPhoneSuccess}
+        title="Başarılı!"
+        message="Telefon numarası güncellendi."
+        onConfirm={() => {
+          setPhoneSucces(false);
+        }}
+      />
+
+      <CustomAlert
+        isVisible={isPhoneError}
+        title="Hata!"
+        message="Telefon numarası güncellenirken bir hata oluştu. Daha sonra tekrar deneyiniz."
+        onConfirm={() => {
+          setPhoneError(false);
+        }}
+      />
 
       <TouchableOpacity
         style={styles.logoutButtonContainer}

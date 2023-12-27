@@ -10,7 +10,6 @@ import CustomAlert from '../components/Alert';
 import { Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
-
 const WalletScreen = () => {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState(null);
@@ -29,6 +28,7 @@ const WalletScreen = () => {
   const [isBuySuccessModalVisible, setBuySuccessModalVisible] = useState(false);
   const [isBuyInsufficientModalVisible, setBuyInsufficientModalVisible] = useState(false);
   const [isSellInsufficientModalVisible, setSellInsufficientModalVisible] = useState(false);
+  const [isAddMoneyModalVisible, setAddMoneyModalVisible] = useState(false);
 
   const fetchUserData = async () => {
     try {
@@ -87,7 +87,7 @@ const WalletScreen = () => {
     let portfolioValue = 0;
 
     for (const coin of userData.coin) {
-      portfolioValue += parseFloat(coin.current_price*coin.piece || 0);
+      portfolioValue += parseFloat(coin.current_price * coin.piece || 0);
     }
 
     return portfolioValue.toFixed(2);
@@ -96,12 +96,9 @@ const WalletScreen = () => {
   useFocusEffect(
     React.useCallback(() => {
       fetchUserData();
-      console.log("ilk istek");
 
       const fetchDataInterval = setInterval(() => {
         getDetailedCoin();
-        console.log("oto cüzdan istek");
-
       }, 30000);
 
       return () => {
@@ -156,7 +153,7 @@ const WalletScreen = () => {
           return {
             ...c,
             piece: updatedPiece,
-            price: c.price - sellAmountFloat*c.current_price,
+            price: c.price - sellAmountFloat * c.current_price,
             current_price: selectedCoin.current_price,
           };
         }
@@ -173,6 +170,7 @@ const WalletScreen = () => {
       await updateDoc(docRef, { coin: updatedUserData.coin, money: updatedUserData.money });
       getDetailedCoin()
       setUserData(updatedUserData);
+
       setSellModalVisible(false);
       setSellAmount('');
       setSellSuccessModalVisible(true);
@@ -216,7 +214,7 @@ const WalletScreen = () => {
 
       const docRef = doc(db, "users", user.email);
       await updateDoc(docRef, { coin: updatedUserData.coin, money: updatedUserData.money });
-
+      setBuyModalVisible(false);
       setBuySuccessModalVisible(true);
     } catch (error) {
 
@@ -232,6 +230,7 @@ const WalletScreen = () => {
       setUserData({ ...userData, money: updatedMoney });
 
       setModalVisible(false);
+      setAddMoneyModalVisible(true);
       setAddedMoney('');
     } catch (error) {
       Alert.alert('Hata', 'Para ekleme sırasında bir hata oluştu.');
@@ -250,7 +249,7 @@ const WalletScreen = () => {
   };
 
   const renderCoinItem = ({ item }) => {
-    const priceDifference = (item.current_price*item.piece - item.price).toFixed(2);
+    const priceDifference = (item.current_price * item.piece - item.price).toFixed(2);
 
     let textColor;
     if (priceDifference < 0) {
@@ -266,7 +265,7 @@ const WalletScreen = () => {
         <View style={styles.coinInfo}>
           <Text style={styles.coinText}>{sliceName(item.name)}</Text>
           <Text style={styles.coinText}>{item.piece}</Text>
-          <Text style={styles.coinText}>${(item.current_price*item.piece).toFixed(2)}</Text>
+          <Text style={styles.coinText}>${(item.current_price * item.piece).toFixed(2)}</Text>
           <Text style={[styles.coinText, { color: textColor }]}>${priceDifference}</Text>
         </View>
         <View style={styles.buttonRow}>
@@ -435,6 +434,15 @@ const WalletScreen = () => {
         message="Yetersiz coin miktarı nedeniyle satış işlemi gerçekleştirilemedi."
         onConfirm={() => {
           setSellInsufficientModalVisible(false);
+        }}
+      />
+
+      <CustomAlert
+        isVisible={isAddMoneyModalVisible}
+        title="Hesaba Para eklendi!"
+        message="Para ekleme işlemi başarılı oldu."
+        onConfirm={() => {
+          setAddMoneyModalVisible(false);
         }}
       />
     </View>

@@ -3,20 +3,21 @@ import React, { useContext, useState } from "react";
 import FormInput from "../components/FormInput";
 import { AuthContext } from "../navigation/AuthProvider";
 import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import CustomAlert from '../components/Alert';
 
 const SignupScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [phone, setPhone] = useState();
-
+  const [isPasswordMatch, setPasswordMatch] = useState();
   const { register } = useContext(AuthContext);
 
   const handleSignUp = () => {
     if (password === confirmPassword) {
       register(email, password, phone);
     } else {
-      Alert.alert("Error", "Şifreler aynı değil. Lütfen kontrol ediniz!");
+     setPasswordMatch(true);
     }
   };
 
@@ -70,6 +71,15 @@ const SignupScreen = ({ navigation }) => {
           <FontAwesome name="sign-in" size={30} color="#14181b" />
         </View>
       </TouchableOpacity>
+
+      <CustomAlert
+        isVisible={isPasswordMatch}
+        title="Hesap Oluşturulamadı!"
+        message="Şifreler uyuşmuyor. Lütfen doğru şifreleri giriniz."
+        onConfirm={() => {
+          setPasswordMatch(false);
+        }}
+      />
 
       <TouchableOpacity
         style={styles.signupButton}
