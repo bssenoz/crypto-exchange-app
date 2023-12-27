@@ -24,7 +24,6 @@ const HomeScreen = () => {
 
             const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
                 const updatedUserData = docSnapshot.data();
-                console.log("order: ", updatedUserData.order)
                 setUserData(updatedUserData);
                 setOrder(updatedUserData.order)
             });
@@ -69,7 +68,6 @@ const HomeScreen = () => {
 
     const handleCancelAlarm = async (alarmId) => {
         try {
-            console.log("cancelll")
             const docRef = doc(db, "users", user.email);
             const updatedOrder = order.filter(item => item.id !== alarmId);
 

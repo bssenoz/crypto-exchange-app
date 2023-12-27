@@ -89,10 +89,12 @@ export const AuthProvider = ({ children }) => {
         const userInfo = userDoc.data();
         setUserInfo(userInfo)
         if (userInfo.order.length > 0) {
+          console.log("orrrr")
           for (var i = 0; i < userInfo.order.length; i++) {
-            const response = await getDetailedCoinDataAPI(userInfo.order[i].id);
+            const response = await getDetailedCoinDataAPI(userInfo.order[i].name);
             const result = await response.json();
-            const coinId = userInfo.order[i].id;
+            const id = userInfo.order[i].id
+            const name = userInfo.order[i].name;
             const price = result.data.market_data.price[0].price_latest.toFixed(2);
             const isIncrease = userInfo.order[i].isIncrease;
             const target = userInfo.order[i].target;
@@ -111,16 +113,16 @@ export const AuthProvider = ({ children }) => {
 
             if (shouldSendNotification) {
               const userRef = doc(db, 'users', user.email);
-              const updatedOrder = userInfo.order.filter((item) => item.id !== coinId);
+              const updatedOrder = userInfo.order.filter((item) => item.id !== id);
 
               await setDoc(userRef, { ...userInfo, order: updatedOrder });
               setUserInfo(userInfo)
               sendNotification(
                 increase
-                  ? `${coinId.toUpperCase()} Fiyatı Yükseldi!`
-                  : `${coinId.toUpperCase()} Fiyatı Düştü!`,
+                  ? `${name.toUpperCase()} Fiyatı Yükseldi!`
+                  : `${name.toUpperCase()} Fiyatı Düştü!`,
                 `Yeni Fiyatı: ${price}`,
-                coinId
+                name
               );
             }
           }
@@ -131,7 +133,7 @@ export const AuthProvider = ({ children }) => {
 
     };
 
-    const priceCheckInterval = setInterval(() => fetchCoinPrice(), 30000);
+    const priceCheckInterval = setInterval(() => fetchCoinPrice(), 10000);
 
     return () => clearInterval(priceCheckInterval);
 
