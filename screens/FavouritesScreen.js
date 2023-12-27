@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import React, { useState } from 'react';
 import CoinItemFavourite from '../components/CoinItemFavourite';
-import { useFavouriteList } from '../contexts/FavouriteListContext';
+import { useFavouriteList } from '../Contexts/FavouriteListContext';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { getDetailedCoinDataAPI } from "../services/api";
 import { useFocusEffect } from '@react-navigation/native';

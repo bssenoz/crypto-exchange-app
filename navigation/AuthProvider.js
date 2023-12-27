@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useRef } from 'react';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged  } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { Alert } from 'react-native';
@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const [userInfo, setUserInfo] = useState(null);
 
   onAuthStateChanged(auth, (user) => {
-     setUser(user);
+    setUser(user);
   });
 
   const addAdmin = async () => {
@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
             isAdmin: true,
             favourites: []
           });
-         }
+        }
       }
     } catch (error) {
       Alert.alert('Error', `${error.message}`);
@@ -47,10 +47,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-      setUser(user);
-      addAdmin();
+    setUser(user);
+    addAdmin();
   }, []);
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (user) {
@@ -79,13 +79,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const fetchCoinPrice = async () => {
-        const userRef = doc(db, 'users', user.email);
-        const userDoc = await getDoc(userRef);
+      const userRef = doc(db, 'users', user.email);
+      const userDoc = await getDoc(userRef);
 
-        if (userDoc.exists()) {
-          const userInfo = userDoc.data();
-          setUserInfo(userInfo)
-    
+      if (userDoc.exists()) {
+        const userInfo = userDoc.data();
+        setUserInfo(userInfo)
+        if (userInfo.order.length > 0) {
           for (var i = 0; i < userInfo.order.length; i++) {
             const response = await getDetailedCoinDataAPI(userInfo.order[i].id);
             const result = await response.json();
@@ -93,23 +93,23 @@ export const AuthProvider = ({ children }) => {
             const price = result.data.market_data.price[0].price_latest.toFixed(3);
             const isIncrease = userInfo.order[i].isIncrease;
             const target = userInfo.order[i].target;
-      
+
             let shouldSendNotification = false;
             let increase = false;
-      
+
             if (isIncrease && price > target) {
               shouldSendNotification = true;
               increase = true;
             }
-      
+
             if (!isIncrease && price < target) {
               shouldSendNotification = true;
             }
-      
+
             if (shouldSendNotification) {
               const userRef = doc(db, 'users', user.email);
               const updatedOrder = userInfo.order.filter((item) => item.id !== coinId);
-      
+
               await setDoc(userRef, { ...userInfo, order: updatedOrder });
               setUserInfo(userInfo)
               sendNotification(
@@ -121,15 +121,17 @@ export const AuthProvider = ({ children }) => {
               );
             }
           }
+
         }
-    
-    
+      }
+
+
     };
 
-    const priceCheckInterval = setInterval(() => fetchCoinPrice(), 30000); 
+    const priceCheckInterval = setInterval(() => fetchCoinPrice(), 30000);
 
     return () => clearInterval(priceCheckInterval);
-  
+
     fetchUserData();
   }, [user]);
 
@@ -149,7 +151,7 @@ export const AuthProvider = ({ children }) => {
         register: async (email, password, phone) => {
           try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        
+
             if (userCredential.user) {
               await setDoc(doc(db, "users", email), {
                 favourites: [],
@@ -167,7 +169,7 @@ export const AuthProvider = ({ children }) => {
             Alert.alert('Error', `${e.message}`);
           }
         },
-        
+
         logout: async () => {
           try {
             await signOut(auth);

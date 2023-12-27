@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, Modal, TextInput, TouchableOpacity, Touc
 import React, { useContext, useEffect, useState } from "react";
 import { Ionicons, FontAwesome, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useFavouriteList } from "../contexts/FavouriteListContext";
+import { useFavouriteList } from "../Contexts/FavouriteListContext";
 import { AuthContext } from "../navigation/AuthProvider";
 import { doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';

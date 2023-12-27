@@ -11,6 +11,8 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import CustomAlert from '../components/Alert';
 import { Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 const CoinDetailsScreen = () => {
   const [selectedChartData, setSelectedChartData] = useState(null);
@@ -74,27 +76,30 @@ const CoinDetailsScreen = () => {
     setCoinName(resultCoinName);
     setCoinSymbol(resultCoinSymbol);
     setCoinLogo(resultCoinLogo);
-    setUsdValue(resultCoinPrice[0].price_latest.toFixed(2).toString());
+    setUsdValue(resultCoinPrice[0].price_latest.toFixed(3).toString());
   }
 
-  useEffect(() => {
-    fetchCoinData();
-    const fetchUserData = async () => {
-      try {
-        const docRef = doc(db, "users", user.email);
-        const docSnap = await getDoc(docRef);
-        const userData = docSnap.data();
-        setUserData(userData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-    const intervalId = setInterval(() => {
+  useFocusEffect(
+    React.useCallback(() => {
       fetchCoinData();
-    }, 20000);
-    fetchUserData();
-    return () => clearInterval(intervalId);
-  }, [user])
+      const fetchUserData = async () => {
+        try {
+          const docRef = doc(db, "users", user.email);
+          const docSnap = await getDoc(docRef);
+          const userData = docSnap.data();
+          setUserData(userData);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+      const intervalId = setInterval(() => {
+        fetchCoinData();
+      }, 20000);
+      fetchUserData();
+      return () => clearInterval(intervalId);
+
+    }, [user])
+  );
 
   const handleBuy = async () => {
     if (!coin) {
@@ -222,7 +227,7 @@ const CoinDetailsScreen = () => {
   };
 
   if (!coinPrice || !coin365Days) {
-    return <ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignContent: 'center', color: '#faf602' }} size="large" />
+    return <ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }} size="large"  color= "#faf602"/>
   }
 
   const data365Days = coin365Days.map((price) => ({ timestamp: price.timestamp, value: price.price }));
@@ -243,13 +248,13 @@ const CoinDetailsScreen = () => {
   const changeCoinValue = (value) => {
     setCoinValue(value);
     const floatValue = parseFloat(value.replace(',', '.')) || 0
-    setUsdValue((floatValue * coinPrice[0].price_latest.toFixed(2)).toString())
+    setUsdValue((floatValue * coinPrice[0].price_latest.toFixed(2)).toFixed(3).toString())
   }
 
   const changeUsdValue = (value) => {
     setUsdValue(value)
     const floatValue = parseFloat(value.replace(',', '.')) || 0
-    setCoinValue((floatValue / coinPrice[0].price_latest.toFixed(2)).toString())
+    setCoinValue((floatValue / coinPrice[0].price_latest.toFixed(2)).toFixed(3).toString())
   }
 
   const handleSelectChartData = (selectedData, buttonName) => {
@@ -265,7 +270,7 @@ const CoinDetailsScreen = () => {
         <View style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View>
             <Text style={styles.text} >Güncel Fiyat</Text>
-            <Text style={styles.currentPrice}>${coinPrice[0].price_latest.toFixed(2)}</Text>
+            <Text style={styles.currentPrice}>${coinPrice[0].price_latest.toFixed(3)}</Text>
           </View>
           <View style={{ backgroundColor: percentageColor, padding: 10, borderRadius: 10 }}>
             <Text style={styles.text}>{(coinPrice[0].price_change_percentage_24h * 100).toFixed(2)}%</Text>

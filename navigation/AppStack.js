@@ -3,7 +3,7 @@ import { ActivityIndicator } from 'react-native';
 import CoinDetailsScreen from '../screens/CoinDetailsScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import AppStackBottomTabs from './AppStackBottomTabs';
-import FavouriteListProvider from '../contexts/FavouriteListContext';
+import FavouriteListProvider from '../Contexts/FavouriteListContext';
 import { useFonts } from 'expo-font'
 import {windowHeight, windowWidth} from '../utils/Dimensions'
 

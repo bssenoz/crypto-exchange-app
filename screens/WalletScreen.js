@@ -8,6 +8,8 @@ import { getDetailedCoinDataAPI } from "../services/api";
 import { Ionicons } from '@expo/vector-icons';
 import CustomAlert from '../components/Alert';
 import { Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 const WalletScreen = () => {
   const { user } = useContext(AuthContext);
@@ -88,20 +90,26 @@ const WalletScreen = () => {
       portfolioValue += parseFloat(coin.current_price || 0);
     }
 
-    return portfolioValue.toFixed(3);
+    return portfolioValue.toFixed(2);
   };
 
-  useEffect(() => {
-    fetchUserData();
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchUserData();
+      console.log("ilk istek");
 
-    const fetchDataInterval = setInterval(() => {
-      getDetailedCoin();
-    }, 30000);
+      const fetchDataInterval = setInterval(() => {
+        getDetailedCoin();
+        console.log("oto cüzdan istek");
 
-    return () => {
-      clearInterval(fetchDataInterval);
-    };
-  }, [user]);
+      }, 30000);
+
+      return () => {
+        clearInterval(fetchDataInterval);
+      };
+    }, [user])
+  );
+
 
   const handleSellCoin = async (coinName, coinPrice) => {
     try {
@@ -242,7 +250,7 @@ const WalletScreen = () => {
   };
 
   const renderCoinItem = ({ item }) => {
-    const priceDifference = (item.current_price - item.price).toFixed(3);
+    const priceDifference = (item.current_price - item.price).toFixed(2);
 
     let textColor;
     if (priceDifference < 0) {
@@ -276,7 +284,7 @@ const WalletScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}><Ionicons name="wallet-outline" style={{ fontSize: 30 }} /> ${(userData?.money || 0).toFixed(3)}</Text>
+        <Text style={styles.title}><Ionicons name="wallet-outline" style={{ fontSize: 30 }} /> ${(userData?.money || 0).toFixed(2)}</Text>
         <TouchableOpacity style={styles.addMoneyButton} onPress={toggleModal}>
           <Text style={styles.addMoneyButtonText}>Para Ekle</Text>
         </TouchableOpacity>

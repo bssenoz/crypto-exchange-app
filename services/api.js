@@ -1,10 +1,12 @@
+import { TI_API_KEY } from "@env";
+
 export const fetchData = async() => {
     return fetch(
       "https://api.tokeninsight.com/api/v1/coins/list",
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
+          "TI_API_KEY": TI_API_KEY,
         },
       }
     );
@@ -17,7 +19,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
+          "TI_API_KEY": TI_API_KEY,
         },
       }
     );
@@ -31,7 +33,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
+          "TI_API_KEY": TI_API_KEY,
         },
       }
     );
@@ -44,7 +46,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
+          "TI_API_KEY": TI_API_KEY,
         },
       }
     );
@@ -58,7 +60,7 @@ export const fetchData = async() => {
       {
         method: "GET",
         headers: {
-          "TI_API_KEY": "9e591f5947fc459aaa4ee154f7134773",
+          "TI_API_KEY": TI_API_KEY,
         },
       }
     );
