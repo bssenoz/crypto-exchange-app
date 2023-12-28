@@ -43,6 +43,7 @@ const AdminScreen = () => {
 
       const updatedUsers = users.filter((user) => user.id !== id);
       setUsers(updatedUsers);
+      setModalVisible(!isModalVisible);
       setDelete(true);
     } catch (error) {
       console.error('Kullanıcı silinirken bir hata oluştu:', error);

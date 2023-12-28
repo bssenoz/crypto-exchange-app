@@ -25,7 +25,9 @@ const HomeScreen = () => {
             const unsubscribe = onSnapshot(docRef, (docSnapshot) => {
                 const updatedUserData = docSnapshot.data();
                 setUserData(updatedUserData);
-                setOrder(updatedUserData.order)
+                if (updatedUserData) {
+                    setOrder(updatedUserData.order)
+                }
             });
 
             return () => unsubscribe();

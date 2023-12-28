@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 
 const Alert = ({ isVisible = false, title, message, onConfirm }) => {
   return (
-    <Modal isVisible={isVisible} style={styles.modal}>
+    <Modal isVisible={isVisible || false} style={styles.modal}>
       <View style={styles.container}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>

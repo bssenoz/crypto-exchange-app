@@ -89,7 +89,6 @@ export const AuthProvider = ({ children }) => {
         const userInfo = userDoc.data();
         setUserInfo(userInfo)
         if (userInfo.order.length > 0) {
-          console.log("orrrr")
           for (var i = 0; i < userInfo.order.length; i++) {
             const response = await getDetailedCoinDataAPI(userInfo.order[i].name);
             const result = await response.json();
