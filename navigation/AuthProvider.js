@@ -40,7 +40,8 @@ export const AuthProvider = ({ children }) => {
             coin: [],
             money: adminMoney,
             isAdmin: true,
-            favourites: []
+            favourites: [],
+            order: []
           });
         }
       }

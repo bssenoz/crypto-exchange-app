@@ -10,14 +10,17 @@ const SignupScreen = ({ navigation }) => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [phone, setPhone] = useState();
+  const [isNonePhone, setNonePhone] = useState();
   const [isPasswordMatch, setPasswordMatch] = useState();
   const { register } = useContext(AuthContext);
 
   const handleSignUp = () => {
-    if (password === confirmPassword) {
+    if (!phone) {
+      setNonePhone(true);
+    } else if (password === confirmPassword) {
       register(email, password, phone);
     } else {
-     setPasswordMatch(true);
+      setPasswordMatch(true);
     }
   };
 
@@ -78,6 +81,15 @@ const SignupScreen = ({ navigation }) => {
         message="Şifreler uyuşmuyor. Lütfen doğru şifreleri giriniz."
         onConfirm={() => {
           setPasswordMatch(false);
+        }}
+      />
+
+      <CustomAlert
+        isVisible={isNonePhone}
+        title="Hesap Oluşturulamadı!"
+        message="Lütfen telefon numarası giriniz."
+        onConfirm={() => {
+          setNonePhone(false);
         }}
       />
 

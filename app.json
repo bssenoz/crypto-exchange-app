@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Kripto Borsam",
-    "slug": "Kripto Borsam",
+    "slug": "kripto-borsam",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/AppIcon.png",
@@ -30,7 +30,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -39,7 +41,9 @@
         "foregroundImage": "./assets/AppIcon.png",
         "backgroundColor": "#14181b"
       },
-      "permissions": ["android.permission.RECORD_AUDIO"],
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
       "package": "com.walla121.CryptoTrackerFirebase"
     },
     "web": {
@@ -47,8 +51,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "406ffe02-7abc-4378-99e6-bcdfc6483415"
+        "projectId": "b93e7c0d-1799-4832-afc5-0b712285426d"
       }
-    }
+    },
+    "owner": "bssenoz"
   }
 }

@@ -8,18 +8,17 @@
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
-  "overrides": {
-    "react-native-gesture-handler": "^2.9.0"
-  },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^0.17.2",
     "@rainbow-me/animated-charts": "^1.0.0-alpha.6",
     "@react-native-async-storage/async-storage": "~1.17.3",
+    "@react-native-firebase/app": "^18.7.3",
+    "@react-native-firebase/auth": "^18.7.3",
+    "@react-native-firebase/firestore": "^18.7.3",
     "@react-navigation/bottom-tabs": "^6.5.6",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.14",
-    "react-native-dotenv": "^3.4.9",
     "axios": "^1.3.2",
     "expo": "~47.0.12",
     "expo-font": "~11.0.1",
@@ -33,7 +32,8 @@
     "react-dom": "18.1.0",
     "react-native": "0.70.8",
     "react-native-chart-kit": "^6.12.0",
-    "react-native-gesture-handler": "~2.8.0",
+    "react-native-dotenv": "^3.4.9",
+    "react-native-gesture-handler": "^2.9.0",
     "react-native-haptic-feedback": "^1.14.0",
     "react-native-modal": "^13.0.1",
     "react-native-modals": "^0.22.3",

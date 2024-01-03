@@ -12,6 +12,7 @@ const AdminScreen = () => {
   const [isDelete, setDelete] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -37,23 +38,27 @@ const AdminScreen = () => {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, 'users', id));
-
-      const updatedUsers = users.filter((user) => user.id !== id);
-      setUsers(updatedUsers);
-      setModalVisible(!isModalVisible);
-      setDelete(true);
+      if (selectedUserId) {
+        await deleteDoc(doc(db, 'users', selectedUserId));
+        const updatedUsers = users.filter((user) => user.id !== selectedUserId);
+        setUsers(updatedUsers);
+        setModalVisible(false);
+        setDelete(true);
+      }
     } catch (error) {
       console.error('Kullanıcı silinirken bir hata oluştu:', error);
       Alert.alert('Hata', 'Kullanıcı silinirken bir hata oluştu.');
     }
   };
+  
 
-  const toggleModal = () => {
+  const toggleModal = (userId) => {
     setModalVisible(!isModalVisible);
+    setSelectedUserId(userId);
   };
+  
 
   return (
     <View style={styles.container}>
@@ -86,24 +91,26 @@ const AdminScreen = () => {
                   <Text style={styles.text}>{index + 1}.</Text>
                   <Text style={styles.text}>{item.id}</Text>
                   <TouchableOpacity
-                    style={styles.deleteButton}
-                    onPress={toggleModal}
-                  >
-                    <Text style={styles.buttonText}>Sil</Text>
-                  </TouchableOpacity>
-                  <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={isModalVisible}
-                    onRequestClose={toggleModal}
-                  >
+  style={styles.deleteButton}
+  onPress={() => toggleModal(item.id)}
+>
+  <Text style={styles.buttonText}>Sil</Text>
+</TouchableOpacity>
+
+<Modal
+  animationType="slide"
+  transparent={true}
+  visible={isModalVisible}
+  onRequestClose={() => toggleModal(null)}
+>
+
                     <View style={styles.centeredView}>
                       <View style={styles.modalView}>
                         <Text style={styles.modalText}>Kullanıcının Silinmesini Onaylıyor Musunuz ?</Text>
                         <View style={styles.buttonContainer}>
                           <TouchableOpacity
                             style={styles.deleteButton}
-                            onPress={() => handleDelete(item.id)}
+                            onPress={() => handleDelete()}
                           >
                             <Text style={styles.buttonText}>Hesabı Sil</Text>
                           </TouchableOpacity>
