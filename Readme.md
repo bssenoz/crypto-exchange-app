@@ -19,7 +19,6 @@ npx expo start
 ## Set environment variables
 Copy [sample.env](./sample.env) file then changes values.
 ```
-
 cp sample.env .env
 ```
 
