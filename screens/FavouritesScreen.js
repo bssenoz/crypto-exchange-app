@@ -34,7 +34,7 @@ const FavouritesScreen = () => {
             coinSymbol: result.data.symbol,
             coinLogo: result.data.logo,
             coinID: result.data.id,
-            price_change_24h: result.data.market_data.price[0].price_change_percentage_24h.toFixed(2)
+            price_change_24h: result.data.market_data.price[0].price_change_percentage_24h
           });
         }
 

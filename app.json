@@ -4,7 +4,10 @@
     "slug": "kripto-borsam",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/AppIcon.png",
+    "icon": {
+      "image": "./assets/playstore-icon.png",
+      "resizeMode": "cover"
+    },
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/AppIcon.png",
@@ -38,8 +41,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/AppIcon.png",
-        "backgroundColor": "#14181b"
+        "foregroundImage": "./assets/playstore-icon.png"
       },
       "permissions": [
         "android.permission.RECORD_AUDIO"

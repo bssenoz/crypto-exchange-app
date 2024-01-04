@@ -52,13 +52,13 @@ const AdminScreen = () => {
       Alert.alert('Hata', 'Kullanıcı silinirken bir hata oluştu.');
     }
   };
-  
+
 
   const toggleModal = (userId) => {
     setModalVisible(!isModalVisible);
     setSelectedUserId(userId);
   };
-  
+
 
   return (
     <View style={styles.container}>
@@ -91,18 +91,18 @@ const AdminScreen = () => {
                   <Text style={styles.text}>{index + 1}.</Text>
                   <Text style={styles.text}>{item.id}</Text>
                   <TouchableOpacity
-  style={styles.deleteButton}
-  onPress={() => toggleModal(item.id)}
->
-  <Text style={styles.buttonText}>Sil</Text>
-</TouchableOpacity>
+                    style={styles.deleteButton}
+                    onPress={() => toggleModal(item.id)}
+                  >
+                    <Text style={styles.buttonText}>Sil</Text>
+                  </TouchableOpacity>
 
-<Modal
-  animationType="slide"
-  transparent={true}
-  visible={isModalVisible}
-  onRequestClose={() => toggleModal(null)}
->
+                  <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={isModalVisible}
+                    onRequestClose={() => toggleModal(null)}
+                  >
 
                     <View style={styles.centeredView}>
                       <View style={styles.modalView}>
@@ -116,6 +116,7 @@ const AdminScreen = () => {
                           </TouchableOpacity>
                           <TouchableOpacity
                             style={styles.cancelButton}
+                            onPress={() => setModalVisible(false)}
                           >
                             <Text style={styles.buttonText}>İptal</Text>
                           </TouchableOpacity>

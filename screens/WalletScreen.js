@@ -96,6 +96,7 @@ const WalletScreen = () => {
   useFocusEffect(
     React.useCallback(() => {
       fetchUserData();
+      getDetailedCoin();
 
       const fetchDataInterval = setInterval(() => {
         getDetailedCoin();
